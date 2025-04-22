@@ -1,0 +1,286 @@
+---
+title: "Crop Yield Prediction"
+output: html_notebook
+---
+
+**Overview**
+
+::: {style="text-align: justify"}
+Crop yield is influenced by several factors, including temperature, NPK (Nitrogen, Phosphorus, Potassium) levels in the soil and fertilizer application. Optimal Temperature ranges vary depending on the crop, but generally, excessive heat or cold can negatively impact growth and yield.
+
+NPK levels play a crucial role in plant nutrition, with nitrogen promoting vegetative growth, Phosphorus supporting root development and flowering and Potassium enhancing overall plant health and disease resistance.
+
+Fertilizer application can improve crop yield by replenishing essential nutrients in the soil, but its important to use the right type and amount of fertilizer for the specific crop and soil conditions.
+:::
+
+**Data Preparation**
+
+::: {style="text-align: justify"}
+```{r}
+# Load library
+library(readxl)
+library(dplyr)
+library(naniar)
+library(ggplot2)
+library(plotly)
+```
+
+```{r}
+# Import data 
+data <- read_excel("./00_raw_data/crop yield data sheet.xlsx")
+```
+
+```{r}
+# Rename column names
+data <- data %>% rename(`Rainfall (mm)` = `Rain Fall (mm)`, 'Yield (Q/acre)' = `Yeild (Q/acre)`, `Temperature` = Temperatue)
+```
+
+```{r}
+# Check for NAs
+colnames(data)[apply(data, 2, anyNA)]
+```
+
+```{r}
+# Check the structure of the data
+str(data)
+```
+
+```{r}
+# Convert the temperature to numeric
+data$Temperature <- as.numeric(data$Temperature, data, na.rm=T)
+```
+
+#### **Handling Missing Data**
+
+A threshold was defined to do know the percentage of missing data.
+
+```{r}
+# Calculate the NA percentage per column
+na_percent <- colSums(is.na(data)) / nrow(data) * 100
+
+# Filter columns above a certain threshold
+threshold <- 30
+
+high_na_columns <- na_percent[na_percent > threshold]
+
+print(high_na_columns)
+print(na_percent)
+```
+
+The high_na_columns returned named numeric(0), which means no column have more than 30% missing values. The full na_percent vector shows all columns have around 9.17% or less NA values.\
+\
+**Data Visualisation on Missing Data**
+
+```{r}
+# Visualise missing Na's using naniar package 
+gg_miss_var(data, show_pct = T)
+```
+
+```{r}
+# Using visdat to show missing data 
+library(visdat)
+
+# Visualise the structure and missing values
+vis_miss(data)
+```
+
+```{r}
+# Using manual plot to visualise data
+na_percent <- colSums(is.na(data)) / nrow(data) * 100
+
+na_df <- data.frame(column = names(na_percent), na_percent = na_percent)
+
+ggplotly(ggplot(na_df, aes(x = reorder(column, -na_percent), y = na_percent)) +
+  geom_col(fill = "tomato") +
+  labs(title = "Percentage of Missing Data per Column", x= "Column", y="Missing Data (%)") + 
+  theme_minimal() + 
+  coord_flip())
+```
+
+The visualisations shows the percentage of missing values for each variable in the dataset. However, the visualisations alone cannot directly determine whether the data is Missing Completely at Random (MCAR), Missing at Random (MAR) or Missing Not at Random (MAR). To determine the missing data mechanism, statistical tests and analyses were performed.
+
+```{r}
+library(MissMech)
+
+# Ensure all data is numeric
+numeric_data <- data[sapply(data, is.numeric)]
+
+# Run the test 
+TestMCARNormality(numeric_data)
+
+# Confirm which rows are actually missing
+which(rowSums(is.na(data)) == 7)
+```
+
+The result from TestMCARNormality indicates more than one missing data pattern should be present, meaning that only one missing data pattern exists in the dataset, which confirms the data visualisations of missing data. Using the "which" function, exactly 10 row numbers are seen, confirming same rows, same variables = 1 pattern. It can reasonably be assume MCAR. The practical choice is to use listwise deletion (the missing data is a small amount) or multiple imputation using missForest (Random Forest Imputation)
+
+```{r}
+# library(missForest)
+
+# Keep both numeric and factor columns
+# mixed_data <- data[sapply(data, function(x) is.numeric(x) || is.factor(x))]
+
+# The data structure has been checked to ensure columns are numeric
+# Remove fully missing rows first 
+# numeric_data <- numeric_data[rowSums(is.na(numeric_data)) <ncol(numeric_data),]
+
+# numeric_data <- as.data.frame(numeric_data)
+
+# Run imputation
+# imputed_data <- missForest(numeric_data)
+
+# data_filled <-imputed_data$ximp
+```
+
+Using listwise deletion approach
+
+```{r}
+clean_data <- na.omit(data)
+```
+:::
+
+**Exploratory Data Analysis**
+
+::: {style="text-align: justify"}
+**Summary Statistics of Yield**
+
+```{r}
+summary(clean_data$`Yield (Q/acre)`)
+```
+
+The minimum and maximum yield are 5.5 and 12 q/acre respectively. 25% of the yield (1st quartile) is below 7 q/acre and 75% of the yield (3rd quartile) is below 11 q/acre or 25% of the yield is above 11 q/acre, whilst the average yield is 9 q/acre.
+
+The data distribution is slightly positively skewed from the comparison values of the median and mean.
+
+**Summary Statistics of Rainfall**
+
+```{r}
+summary(clean_data$`Rainfall (mm)`)
+```
+
+The minimum and maximum rainfall are 400 and 1300 mm respectively. 25% of the rainfall (1st quartile) is below 450 mm and 75% of the rainfall (3rd quartile) is below 1237 mm, whilst the average rainfall is 849 mm.
+
+The rainfall distribution is negatively skewed from the comparison values of the median and mean.
+
+**Data Visualisation of Yield vs Rainfall Using Scatter Plot**
+
+```{r message=F}
+ggplotly(ggplot(data = clean_data, mapping = aes(x = `Rainfall (mm)`, y = `Yield (Q/acre)`)) +
+  geom_point(color = 'darkblue') +
+  geom_smooth(method = 'lm', se = FALSE, color ="red") +
+  labs(title = "Yield vs Rainfall", x = "Rainfall (mm)", y = "Yield (Q/acre)")+
+  theme_minimal())
+```
+
+**Data Visualisation of Yield vs Temperature Using Scatter Plot**
+
+```{r message=F}
+ggplotly(ggplot(data = clean_data, mapping = aes(x = `Temperature`, y = `Yield (Q/acre)`)) +
+  geom_point(color = "darkblue") +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(title = " Yield vs Temperature", x = "Temperature", y = "Yield (Q/acre)" ) +
+  theme_minimal())
+```
+
+\
+**Data Visualisation of Yield by Rainfall and Temperature**
+
+```{r}
+ggplotly(ggplot(data = clean_data, mapping = aes(x = `Rainfall (mm)`, y = `Yield (Q/acre)`, color = Temperature)) +
+  geom_point(size = 3) +
+  labs(title = "Yield vs Rainfall (Coloured by Temperature)", x = "Rainfall (mm)", y = "Yield (Q/acre)") +
+  scale_color_gradient(low = "blue", high = "red") +
+  theme_minimal())
+```
+
+\
+\
+**Interactive Visualisation using plotly**
+
+```{r}
+ggplotly(p = ggplot(data = clean_data, mapping = aes(x = `Rainfall (mm)`, y = `Yield (Q/acre)`, color = Temperature)) + 
+           geom_point() +
+            geom_smooth(method = "lm", se = FALSE, color = "black")+
+           theme_minimal()
+           )
+```
+
+Since fertilizer has many unique values but is not fully continuous (like 50, 52, 55...) it's perfect for boxplot analysis and line plot analysis.
+
+**Boxplot of Yield by Fertilizer**
+
+```{r}
+ggplotly (ggplot(clean_data, aes(x = as.factor(Fertilizer), y = `Yield (Q/acre)`)) +
+  geom_boxplot(fill = "lightblue") +
+  labs(title = "Crop Yield by Fertilizer Level", 
+       x = "Fertilizer", y = "Yield (Q/acre)"
+       ) + theme_minimal())
+```
+
+\
+**Line Plot of Mean Yield vs Fertilizer**
+
+```{r}
+average_yield <- clean_data %>% 
+  group_by(Fertilizer) %>% 
+  summarise(mean_yield = mean(`Yield (Q/acre)`))
+
+ggplotly(
+  ggplot(data = average_yield, mapping = aes(x = Fertilizer, y =mean_yield)) + 
+  geom_line(color = "forestgreen") +
+  geom_point( size = 2) + 
+  labs(title = "Average Yield by Fertilizer", x = "Fertilizer", y = "Mean Yield (Q/acre)") + theme_minimal()
+)
+
+```
+
+\
+**Line Plot of Yield by Fertilizer and Rainfall**
+
+```{r}
+ggplotly(ggplot(data = clean_data, mapping = aes(x = Fertilizer, y = `Rainfall (mm)`, color = `Rainfall (mm)`)) + geom_point(size = 3) + 
+  labs(title = "Yield by Fertilizer and Rainfall", x = "Fertilizer", y = "Yield (Q/acre)") +
+  scale_color_gradient(low = "lightblue", high = "darkblue") +
+  theme_minimal())
+```
+
+**Analysis of Yield by Macro-nutrients (Nitrogen (N), Phosphorus (P), Potassium (K)**
+
+Macro-nutrients are essential mineral elements that plants need in relatively large amounts for healthy growth and seed production. The primary macro-nutrients are **nitrogen (N)**, **phosphorus (P)** and **potassium (K)**, often represented as **NPK** on fertilizer labels. Nitrogen is important for leaf and stem growth, chlorophyll production and overall plant vigour. Phosphorus is important for root development, flowering, fruiting and seed formation. Potassium is essential for overall plant health, disease resistance and fruit quality.
+
+```{r}
+average_yield_nutrients <- clean_data %>% 
+  group_by(`Nitrogen (N)`, `Phosphorus (P)`, `Potassium (K)`) %>% 
+  summarise(average_yield_q_acre = mean(`Yield (Q/acre)`), .groups = "drop")
+
+plot_ly(
+  data = average_yield_nutrients,
+  x = ~`Nitrogen (N)`,
+  y = ~`Phosphorus (P)`,
+  z = ~`Potassium (K)`,
+  size = ~average_yield_q_acre,
+  type = 'scatter3d',
+  mode = 'markers',
+  marker = list(sizemode = 'diameter', color = ~average_yield, colorscale = 'Viridis')
+)
+
+ggplotly (ggplot(average_yield_nutrients, aes(x = `Nitrogen (N)`, y = `Phosphorus (P)`, size = average_yield_q_acre, color = `Potassium (K)`)) +
+  geom_point(alpha = 0.7) +
+  scale_size_continuous(range = c(2, 10)) +
+  labs(title = "Yield by N, P (Bubble = Yield, Color = K)",
+       x = "Nitrogen (N)", y = "Phosphorus (P)", size = "Avg Yield", color = "Potassium (K)") +
+  theme_minimal())
+
+
+
+ggplotly (ggplot(average_yield_nutrients, aes(x = `Nitrogen (N)`, y = `Phosphorus (P)`, fill = average_yield_q_acre)) +
+  geom_tile(color = "white") +
+  scale_fill_viridis_c() +
+  labs(title = "Average Yield by Nitrogen and Phosphorus",
+       x = "Nitrogen (N)", y = "Phosphorus (P)", fill = "Avg Yield") +
+  theme_minimal())
+
+```
+
+\
+:::
