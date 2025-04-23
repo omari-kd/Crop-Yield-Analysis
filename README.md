@@ -60,7 +60,7 @@ The rainfall distribution is negatively skewed from the comparison values of the
 
 ![Image](https://github.com/user-attachments/assets/f9ac09e3-d5ee-471f-a6a4-ea37ffa855ef)
 
-From the plot, there is a positive correlation, indicated by the upward red regression line. As rainfall increases, yield tends to increase. The rainfall values seem to be clustered into two distinct groups, one around 400mm and the other around 1200mm. Despite this, the trend suggests more rainfall generally supports higher yields.
+From the plot, there is a positive correlation, indicated by the upward red regression line. As rainfall increases, yield tends to increase. The rainfall values seem to be clustered into two distinct groups, one around 400mm to 500mm and the other around 1200mm. Despite this, the trend suggests more rainfall generally supports higher yields.
 
 **Data Visualisation of Yield vs Temperature Using Scatter Plot**
 
