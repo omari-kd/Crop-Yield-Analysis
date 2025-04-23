@@ -56,4 +56,12 @@ The minimum and maximum rainfall are 400 and 1300 mm respectively. 25% of the ra
 
 The rainfall distribution is negatively skewed from the comparison values of the median and mean.
 
+**Data Visualisation of Yield vs Rainfall Using Scatter Plot**
+
+![Image](https://github.com/user-attachments/assets/f9ac09e3-d5ee-471f-a6a4-ea37ffa855ef)
+
+**Data Visualisation of Yield vs Temperature Using Scatter Plot**
+
+![Image](https://github.com/user-attachments/assets/e5a378f4-03be-4c0e-91cb-a6562582ae5b)
+
 </div>

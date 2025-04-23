@@ -165,44 +165,43 @@ The rainfall distribution is negatively skewed from the comparison values of the
 **Data Visualisation of Yield vs Rainfall Using Scatter Plot**
 
 ```{r message=F}
-ggplotly(ggplot(data = clean_data, mapping = aes(x = `Rainfall (mm)`, y = `Yield (Q/acre)`)) +
+ggplot(data = clean_data, mapping = aes(x = `Rainfall (mm)`, y = `Yield (Q/acre)`)) +
   geom_point(color = 'darkblue') +
   geom_smooth(method = 'lm', se = FALSE, color ="red") +
   labs(title = "Yield vs Rainfall", x = "Rainfall (mm)", y = "Yield (Q/acre)")+
-  theme_minimal())
+  theme_minimal()
 ```
 
 **Data Visualisation of Yield vs Temperature Using Scatter Plot**
 
 ```{r message=F}
-ggplotly(ggplot(data = clean_data, mapping = aes(x = `Temperature`, y = `Yield (Q/acre)`)) +
+ggplot(data = clean_data, mapping = aes(x = `Temperature`, y = `Yield (Q/acre)`)) +
   geom_point(color = "darkblue") +
   geom_smooth(method = "lm", se = FALSE, color = "red") +
   labs(title = " Yield vs Temperature", x = "Temperature", y = "Yield (Q/acre)" ) +
-  theme_minimal())
+  theme_minimal()
 ```
 
 \
 **Data Visualisation of Yield by Rainfall and Temperature**
 
 ```{r}
-ggplotly(ggplot(data = clean_data, mapping = aes(x = `Rainfall (mm)`, y = `Yield (Q/acre)`, color = Temperature)) +
+ggplot(data = clean_data, mapping = aes(x = `Rainfall (mm)`, y = `Yield (Q/acre)`, color = Temperature)) +
   geom_point(size = 3) +
   labs(title = "Yield vs Rainfall (Coloured by Temperature)", x = "Rainfall (mm)", y = "Yield (Q/acre)") +
   scale_color_gradient(low = "blue", high = "red") +
-  theme_minimal())
+  theme_minimal()
 ```
 
 \
 \
 **Interactive Visualisation using plotly**
 
-```{r}
-ggplotly(p = ggplot(data = clean_data, mapping = aes(x = `Rainfall (mm)`, y = `Yield (Q/acre)`, color = Temperature)) + 
+```{r message=FALSE}
+ggplot(data = clean_data, mapping = aes(x = `Rainfall (mm)`, y = `Yield (Q/acre)`, color = Temperature)) + 
            geom_point() +
             geom_smooth(method = "lm", se = FALSE, color = "black")+
            theme_minimal()
-           )
 ```
 
 Since fertilizer has many unique values but is not fully continuous (like 50, 52, 55...) it's perfect for boxplot analysis and line plot analysis.
@@ -210,11 +209,11 @@ Since fertilizer has many unique values but is not fully continuous (like 50, 52
 **Boxplot of Yield by Fertilizer**
 
 ```{r}
-ggplotly (ggplot(clean_data, aes(x = as.factor(Fertilizer), y = `Yield (Q/acre)`)) +
+ggplot(clean_data, aes(x = as.factor(Fertilizer), y = `Yield (Q/acre)`)) +
   geom_boxplot(fill = "lightblue") +
   labs(title = "Crop Yield by Fertilizer Level", 
        x = "Fertilizer", y = "Yield (Q/acre)"
-       ) + theme_minimal())
+       ) + theme_minimal()
 ```
 
 \
@@ -225,12 +224,12 @@ average_yield <- clean_data %>%
   group_by(Fertilizer) %>% 
   summarise(mean_yield = mean(`Yield (Q/acre)`))
 
-ggplotly(
+
   ggplot(data = average_yield, mapping = aes(x = Fertilizer, y =mean_yield)) + 
   geom_line(color = "forestgreen") +
   geom_point( size = 2) + 
   labs(title = "Average Yield by Fertilizer", x = "Fertilizer", y = "Mean Yield (Q/acre)") + theme_minimal()
-)
+
 
 ```
 
@@ -238,10 +237,10 @@ ggplotly(
 **Line Plot of Yield by Fertilizer and Rainfall**
 
 ```{r}
-ggplotly(ggplot(data = clean_data, mapping = aes(x = Fertilizer, y = `Rainfall (mm)`, color = `Rainfall (mm)`)) + geom_point(size = 3) + 
+ggplot(data = clean_data, mapping = aes(x = Fertilizer, y = `Rainfall (mm)`, color = `Rainfall (mm)`)) + geom_point(size = 3) + 
   labs(title = "Yield by Fertilizer and Rainfall", x = "Fertilizer", y = "Yield (Q/acre)") +
   scale_color_gradient(low = "lightblue", high = "darkblue") +
-  theme_minimal())
+  theme_minimal()
 ```
 
 **Analysis of Yield by Macro-nutrients (Nitrogen (N), Phosphorus (P), Potassium (K)**
