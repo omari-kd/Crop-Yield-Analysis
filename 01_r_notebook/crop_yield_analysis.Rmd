@@ -90,11 +90,11 @@ na_percent <- colSums(is.na(data)) / nrow(data) * 100
 
 na_df <- data.frame(column = names(na_percent), na_percent = na_percent)
 
-ggplotly(ggplot(na_df, aes(x = reorder(column, -na_percent), y = na_percent)) +
+ggplot(na_df, aes(x = reorder(column, -na_percent), y = na_percent)) +
   geom_col(fill = "tomato") +
   labs(title = "Percentage of Missing Data per Column", x= "Column", y="Missing Data (%)") + 
   theme_minimal() + 
-  coord_flip())
+  coord_flip()
 ```
 
 The visualisations shows the percentage of missing values for each variable in the dataset. However, the visualisations alone cannot directly determine whether the data is Missing Completely at Random (MCAR), Missing at Random (MAR) or Missing Not at Random (MAR). To determine the missing data mechanism, statistical tests and analyses were performed.
@@ -282,5 +282,102 @@ ggplotly (ggplot(average_yield_nutrients, aes(x = `Nitrogen (N)`, y = `Phosphoru
 
 ```
 
+**Diminishing Returns in Fertilizer**
+
+It is the idea that as you keep adding more fertilizer. the increase in yield gets smaller and smaller. At a point adding more might even reduce yield due to soil toxicity, soil imbalance etc.
+
+Diminishing returns in R can be achieved using the quadratic model:
+
+Yield=β0​+β1​⋅Fertilizer+β2​⋅Fertilizer2+ other terms
+
+If `β2` is **negative**, it confirms diminishing returns (a concave curve 📈➡️📉)
+
+```{r}
+# Fit model with Fertilizer squared (quadratic term)
+model_full <- lm(`Yield (Q/acre)` ~ Fertilizer + I(Fertilizer^2) + `Rainfall (mm)` + `Nitrogen (N)` + `Phosphorus (P)` + `Potassium (K)`, data = clean_data)
+
+
+# summary to check the sign and significance of fertilizer^2 
+summary(model_full)
+```
+
+**Visualise the curve**
+
+```{r}
+
+# Plot actual data points
+ggplotly(ggplot(clean_data, aes(x = Fertilizer, y = `Yield (Q/acre)`)) +
+  geom_point(color = "darkgreen", alpha = 0.6) +
+  stat_smooth(method = "lm", formula = y ~ x + I(x^2), color = "blue", size = 1.2) +
+  labs(title = "Diminishing Returns of Fertilizer",
+       x = "Fertilizer (kg/acre?)",
+       y = "Yield (q/acre)") +
+  theme_minimal())
+
+```
+
+**Visualise (Fertilizer vs. Yield with control vars )**
+
+Plotting the relationship between fertilizer and yield while holding other variables constant (at their mean)
+
+```{r}
+# Create a sequence of fertilizer values
+fert_range <- seq(min(clean_data$Fertilizer), max(clean_data$Fertilizer), length.out = 100)
+
+# Hold other variables at their mean
+rain_mean <- mean(clean_data$`Rainfall (mm)`)
+N_mean <- mean(clean_data$`Nitrogen (N)`)
+P_mean <- mean(clean_data$`Phosphorus (P)`)
+K_mean <- mean(clean_data$`Potassium (K)`)
+
+# Create new data frame for prediction
+# Create prediction data frame with correct column names
+pred_data <- data.frame(
+  Fertilizer = fert_range,
+  `Rainfall (mm)` = rain_mean,
+  `Nitrogen (N)` = N_mean,
+  `Phosphorus (P)` = P_mean,
+  `Potassium (K)` = K_mean
+)
+
+
+# Predict yield
+pred_data$Pred_Yield <- predict(model_full, newdata = pred_data)
+
+
+# Plot
+ggplot() +
+  geom_point(data = clean_data, aes(x = Fertilizer, y = Yield), alpha = 0.5, color = "gray") +
+  geom_line(data = pred_data, aes(x = Fertilizer, y = Pred_Yield), color = "blue", size = 1.2) +
+  labs(title = "Diminishing Returns of Fertilizer (controlling for Rainfall & NPK)",
+       x = "Fertilizer",
+       y = "Predicted Yield") +
+  theme_minimal()
+
+```
+
 \
+**Linear Regression**
+
+```{r}
+model1 <- lm(`Yield (Q/acre)` ~ `Rainfall (mm)` + Temperature + Fertilizer + `Nitrogen (N)` + `Phosphorus (P)` + `Potassium (K)`, data = clean_data)
+
+summary(model1)
+```
+
+**Regression with interaction term in R**
+
+```{r}
+model2 <- lm(`Yield (Q/acre)` ~ `Rainfall (mm)` * Fertilizer + Temperature + `Nitrogen (N)` + `Phosphorus (P)` + `Potassium (K)`, data = clean_data)
+
+summary(model2)
+```
+
+**Diagnostic Plots**
+
+```{r}
+# Diagnostic plots
+par(mfrow = c(2, 2))
+plot(model2)
+```
 :::
