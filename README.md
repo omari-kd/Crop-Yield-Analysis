@@ -34,9 +34,9 @@ A threshold was defined to know the percentage of missing data. All columns had 
 
 The missing data was visualised using the naniar package and ggplot
 
-![](images/clipboard-2306475452.png)
+![Image](https://github.com/user-attachments/assets/53d40d17-65b4-41e0-8411-90446b7445c2)
 
-![](images/clipboard-1635122381.png)
+![Image](https://github.com/user-attachments/assets/ee9d92e9-1a3e-4eb8-b6cd-4e781c04ecfd)
 
 The visualisations shows the percentage of missing values for each variable in the dataset. However, the visualisations alone cannot directly determine whether the data is Missing Completely at Random (MCAR), Missing at Random (MAR) or Missing Not at Random (MAR). To determine the missing data mechanism, statistical tests and analyses were performed.
 
