@@ -78,8 +78,7 @@ This combined plot indicates that both high rainfall and lower temperature are a
 
 High temperature and low rainfall significantly reduce yield.
 
-**Line Plot of Mean Yield vs Fertilizer\
-**
+**Line Plot of Mean Yield vs Fertilizer**
 
 ![Image](https://github.com/user-attachments/assets/118029cb-33bd-4b48-ab84-3f100edc0711)
 
