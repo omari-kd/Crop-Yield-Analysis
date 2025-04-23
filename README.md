@@ -60,12 +60,22 @@ The rainfall distribution is negatively skewed from the comparison values of the
 
 ![Image](https://github.com/user-attachments/assets/f9ac09e3-d5ee-471f-a6a4-ea37ffa855ef)
 
+From the plot, there is a positive correlation, indicated by the upward red regression line. As rainfall increases, yield tends to increase. The rainfall values seem to be clustered into two distinct groups, one around 400mm and the other around 1200mm. Despite this, the trend suggests more rainfall generally supports higher yields.
+
 **Data Visualisation of Yield vs Temperature Using Scatter Plot**
 
 ![Image](https://github.com/user-attachments/assets/e5a378f4-03be-4c0e-91cb-a6562582ae5b)
 
+The plot indicates a negative correlation, indicated by the downward red regression line. As temperature increases, yield tends to decrease. The yield is highest when temperatures are lower (below -30 ) suggesting crops might be sensitive to heat.
+
 **Data Visualisation of Yield by Rainfall and Temperature**
 
 ![Image](https://github.com/user-attachments/assets/459396a1-d20e-47b4-8bd3-e858484ece39)
+
+The plot reinforces the first plot's trend (more rainfall = higher yield). The red dots (higher temperature) are mostly on the left side (low rainfall) and these are associated with lower yields. Blue/purple dots (cooler temperature) are on the right side (high rainfall) and these are associated with higher yields.
+
+This combined plot indicates that both high rainfall and lower temperature are associated with better yields.
+
+High temperature and low rainfall significantly reduce yield.
 
 </div>
