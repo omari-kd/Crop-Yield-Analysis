@@ -64,4 +64,8 @@ The rainfall distribution is negatively skewed from the comparison values of the
 
 ![Image](https://github.com/user-attachments/assets/e5a378f4-03be-4c0e-91cb-a6562582ae5b)
 
+**Data Visualisation of Yield by Rainfall and Temperature**
+
+![Image](https://github.com/user-attachments/assets/459396a1-d20e-47b4-8bd3-e858484ece39)
+
 </div>
