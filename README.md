@@ -102,13 +102,27 @@ The plot below gives an important insights into the nature of the fertilizer eff
 
 ![Image](https://github.com/user-attachments/assets/10c86a71-b7af-46e5-80e5-8245622ba3b9)
 
-The scatterplot with a polynomial regression line (blue), shows a non-linear relationship between fertilizer and yield.
+The scatter plot with a polynomial regression line (blue), shows a non-linear relationship between fertilizer and yield.
 
 The relationship is increasing but non-linear, looks like a quadratic or near-logistic shape. Initially as fertilizer increases, yield increases slowly. After a threshold (\~60–65), the rate of increase in yield accelerates. There may be signs of diminishing returns beyond \~75–80, where the yield gain per unit fertilizer starts to level off.
 
 Yield responds positively to fertilizer, but the efficiency of additional fertilizer decreases at higher levels; classic diminishing returns.
 
-\
+**Modelling**\
+**Linear Regression Model**
+
+![Image](https://github.com/user-attachments/assets/19a5b7eb-20d4-4938-9a99-58e0287cbcdb)
+
+-   R-Squared =0.8856 means that about 88% of the variability in the target variable (crop yield) is explained by the features in the regression model and is typically considered a good fit.
+
+-   Temperature has a strong negative effect (p \< 0.05).
+
+-   Nitrogen and Potassium are significant positive contributors (p \< 0.05)
+
+-   The effect of Phosphorus is non statistically significant (p = 0.088 \> 0.05), the result was close to significance.
+
+-   Fertilizer and Rainfall are not significant individually.
+
 \
 **Conclusion**
 
