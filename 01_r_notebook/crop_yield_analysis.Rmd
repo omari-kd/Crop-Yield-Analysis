@@ -225,16 +225,14 @@ average_yield <- clean_data %>%
   summarise(mean_yield = mean(`Yield (Q/acre)`))
 
 
-  ggplot(data = average_yield, mapping = aes(x = Fertilizer, y =mean_yield)) + 
+  ggplotly(ggplot(data = average_yield, mapping = aes(x = Fertilizer, y =mean_yield)) + 
   geom_line(color = "forestgreen") +
   geom_point( size = 2) + 
-  labs(title = "Average Yield by Fertilizer", x = "Fertilizer", y = "Mean Yield (Q/acre)") + theme_minimal()
-
-
+  labs(title = "Average Yield by Fertilizer", x = "Fertilizer", y = "Mean Yield (Q/acre)") + theme_minimal())
 ```
 
 \
-**Line Plot of Yield by Fertilizer and Rainfall**
+**Scatter Plot of Yield by Fertilizer and Rainfall**
 
 ```{r}
 ggplot(data = clean_data, mapping = aes(x = Fertilizer, y = `Rainfall (mm)`, color = `Rainfall (mm)`)) + geom_point(size = 3) + 

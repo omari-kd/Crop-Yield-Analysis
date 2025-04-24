@@ -78,8 +78,26 @@ This combined plot indicates that both high rainfall and lower temperature are a
 
 High temperature and low rainfall significantly reduce yield.
 
-**Line Plot of Mean Yield vs Fertilizer**
+**Data Visualisation of Mean Yield vs Fertilizer**
 
 ![Image](https://github.com/user-attachments/assets/118029cb-33bd-4b48-ab84-3f100edc0711)
+
+The plot clearly shows an upward trend, average yield increases as fertilizer use increases. From 50 to 70 units of fertilizer, yield gradually improves. Beyond 70, there is a more noticeable jump and stabilization at higher yields(10 - 11 Q/acre).
+
+Fertilizer positively influences yield, especially when moving from moderate (\~60) to higher levels. However, there's some fluctuation, suggesting other factors (like rainfall or temperature) may also be playing a role.
+
+**Data Visualisation of Yield by Fertilizer and Rainfall**
+
+![Image](https://github.com/user-attachments/assets/c464410b-7069-42dd-ae32-5763a6952097)
+
+The plot shows the visualisation of yield by fertilizer and rainfall. The light blue indicates low rainfall (400 mm) and the dark blue indicates high rainfall (\~1200 mm).
+
+At all fertilizer levels, higher yields occurs when rainfall is high (dark blue). Even at higher fertilizer levels, yield is low if rainfall is low (light blue). High Fertilizer and high rainfall give the best yields.
+
+Rainfall is a critical factor. Without sufficient rainfall, even high fertilizer does not significantly increase yield.
+
+**Diminishing Returns of the fertilizer**
+
+The plot below gives an important insights into the nature of the fertilizer effect on yield and it sets the stage nicely for a more sp
 
 </div>
