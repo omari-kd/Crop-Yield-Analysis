@@ -20,6 +20,7 @@ Fertilizer application can improve crop yield by replenishing essential nutrient
 # Load library
 library(readxl)
 library(dplyr)
+library(janitor)
 library(naniar)
 library(ggplot2)
 library(plotly)
@@ -36,6 +37,11 @@ data <- data %>% rename(`Rainfall (mm)` = `Rain Fall (mm)`, 'Yield (Q/acre)' = `
 ```
 
 ```{r}
+# Clean column names
+data <- data %>% clean_names()
+```
+
+```{r}
 # Check for NAs
 colnames(data)[apply(data, 2, anyNA)]
 ```
@@ -47,7 +53,7 @@ str(data)
 
 ```{r}
 # Convert the temperature to numeric
-data$Temperature <- as.numeric(data$Temperature, data, na.rm=T)
+data$temperature <- as.numeric(data$temperature, data, na.rm=T)
 ```
 
 #### **Handling Missing Data**
@@ -145,7 +151,7 @@ clean_data <- na.omit(data)
 **Summary Statistics of Yield**
 
 ```{r}
-summary(clean_data$`Yield (Q/acre)`)
+summary(clean_data$yield_q_acre)
 ```
 
 The minimum and maximum yield are 5.5 and 12 q/acre respectively. 25% of the yield (1st quartile) is below 7 q/acre and 75% of the yield (3rd quartile) is below 11 q/acre or 25% of the yield is above 11 q/acre, whilst the average yield is 9 q/acre.
@@ -155,7 +161,7 @@ The data distribution is slightly positively skewed from the comparison values o
 **Summary Statistics of Rainfall**
 
 ```{r}
-summary(clean_data$`Rainfall (mm)`)
+summary(clean_data$rainfall_mm)
 ```
 
 The minimum and maximum rainfall are 400 and 1300 mm respectively. 25% of the rainfall (1st quartile) is below 450 mm and 75% of the rainfall (3rd quartile) is below 1237 mm, whilst the average rainfall is 849 mm.
@@ -165,7 +171,7 @@ The rainfall distribution is negatively skewed from the comparison values of the
 **Data Visualisation of Yield vs Rainfall Using Scatter Plot**
 
 ```{r message=F}
-ggplot(data = clean_data, mapping = aes(x = `Rainfall (mm)`, y = `Yield (Q/acre)`)) +
+ggplot(data = clean_data, mapping = aes(x = rainfall_mm, y = yield_q_acre)) +
   geom_point(color = 'darkblue') +
   geom_smooth(method = 'lm', se = FALSE, color ="red") +
   labs(title = "Yield vs Rainfall", x = "Rainfall (mm)", y = "Yield (Q/acre)")+
@@ -175,7 +181,7 @@ ggplot(data = clean_data, mapping = aes(x = `Rainfall (mm)`, y = `Yield (Q/acre)
 **Data Visualisation of Yield vs Temperature Using Scatter Plot**
 
 ```{r message=F}
-ggplot(data = clean_data, mapping = aes(x = `Temperature`, y = `Yield (Q/acre)`)) +
+ggplot(data = clean_data, mapping = aes(x = temperature, y = yield_q_acre)) +
   geom_point(color = "darkblue") +
   geom_smooth(method = "lm", se = FALSE, color = "red") +
   labs(title = " Yield vs Temperature", x = "Temperature", y = "Yield (Q/acre)" ) +
@@ -186,7 +192,7 @@ ggplot(data = clean_data, mapping = aes(x = `Temperature`, y = `Yield (Q/acre)`)
 **Data Visualisation of Yield by Rainfall and Temperature**
 
 ```{r}
-ggplot(data = clean_data, mapping = aes(x = `Rainfall (mm)`, y = `Yield (Q/acre)`, color = Temperature)) +
+ggplot(data = clean_data, mapping = aes(x = rainfall_mm, y = yield_q_acre, color = temperature)) +
   geom_point(size = 3) +
   labs(title = "Yield vs Rainfall (Coloured by Temperature)", x = "Rainfall (mm)", y = "Yield (Q/acre)") +
   scale_color_gradient(low = "blue", high = "red") +
@@ -198,7 +204,7 @@ ggplot(data = clean_data, mapping = aes(x = `Rainfall (mm)`, y = `Yield (Q/acre)
 **Interactive Visualisation using plotly**
 
 ```{r message=FALSE}
-ggplot(data = clean_data, mapping = aes(x = `Rainfall (mm)`, y = `Yield (Q/acre)`, color = Temperature)) + 
+ggplot(data = clean_data, mapping = aes(x = rainfall_mm, y = yield_q_acre, color = temperature)) + 
            geom_point() +
             geom_smooth(method = "lm", se = FALSE, color = "black")+
            theme_minimal()
@@ -209,7 +215,7 @@ Since fertilizer has many unique values but is not fully continuous (like 50, 52
 **Boxplot of Yield by Fertilizer**
 
 ```{r}
-ggplot(clean_data, aes(x = as.factor(Fertilizer), y = `Yield (Q/acre)`)) +
+ggplot(clean_data, aes(x = as.factor(fertilizer), y = yield_q_acre)) +
   geom_boxplot(fill = "lightblue") +
   labs(title = "Crop Yield by Fertilizer Level", 
        x = "Fertilizer", y = "Yield (Q/acre)"
@@ -221,11 +227,11 @@ ggplot(clean_data, aes(x = as.factor(Fertilizer), y = `Yield (Q/acre)`)) +
 
 ```{r}
 average_yield <- clean_data %>% 
-  group_by(Fertilizer) %>% 
-  summarise(mean_yield = mean(`Yield (Q/acre)`))
+  group_by(fertilizer) %>% 
+  summarise(mean_yield = mean(yield_q_acre))
 
 
-  ggplotly(ggplot(data = average_yield, mapping = aes(x = Fertilizer, y =mean_yield)) + 
+  ggplotly(ggplot(data = average_yield, mapping = aes(x = fertilizer, y =mean_yield)) + 
   geom_line(color = "forestgreen") +
   geom_point( size = 2) + 
   labs(title = "Average Yield by Fertilizer", x = "Fertilizer", y = "Mean Yield (Q/acre)") + theme_minimal())
@@ -235,7 +241,7 @@ average_yield <- clean_data %>%
 **Scatter Plot of Yield by Fertilizer and Rainfall**
 
 ```{r}
-ggplot(data = clean_data, mapping = aes(x = Fertilizer, y = `Rainfall (mm)`, color = `Rainfall (mm)`)) + geom_point(size = 3) + 
+ggplot(data = clean_data, mapping = aes(x = fertilizer, y = yield_q_acre, color = rainfall_mm)) + geom_point(size = 3) + 
   labs(title = "Yield by Fertilizer and Rainfall", x = "Fertilizer", y = "Yield (Q/acre)") +
   scale_color_gradient(low = "lightblue", high = "darkblue") +
   theme_minimal()
@@ -376,5 +382,33 @@ summary(model2)
 # Diagnostic plots
 par(mfrow = c(2, 2))
 plot(model2)
+```
+
+Rainfall and Fertilizer may only show their power under non-linear or conditional effects (e.g., diminishing returns, thresholds). This is exactly where a Decision Tree or Random Forest would shine; it doesn't assume additive or linear relationships.
+
+**Decision Tree Model**
+
+```{r}
+library(rpart)
+library(rpart.plot)
+
+# Fit the decsion tree 
+tree_model <- rpart(formula = `Yield (Q/acre)` ~ `Rainfall (mm)` + Temperature + Fertilizer + `Nitrogen (N)` + `Phosphorus (P)` + `Potassium (K)`, data = clean_data, method = "anova")
+
+# Visualise the tree 
+rpart.plot(x = tree_model, type = 2, fallen.leaves = TRUE, extra = 101)
+```
+
+**Random Forest**
+
+```{r}
+library(randomForest)
+
+# Fit the random forest model 
+rf_model <- randomForest(formula = yield_q_acre ~ rainfall_mm + temperature + fertilizer + nitrogen_n + phosphorus_p + potassium_k, data = clean_data, importance = TRUE, ntree = 500)
+
+# View variable importance 
+importance(rf_model)
+varImpPlot(rf_model)
 ```
 :::

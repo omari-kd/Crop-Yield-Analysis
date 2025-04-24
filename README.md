@@ -88,7 +88,7 @@ Fertilizer positively influences yield, especially when moving from moderate (\~
 
 **Data Visualisation of Yield by Fertilizer and Rainfall**
 
-![Image](https://github.com/user-attachments/assets/c464410b-7069-42dd-ae32-5763a6952097)
+![Image](https://github.com/user-attachments/assets/96ca4b18-4b40-42b5-84be-6e9570ba6662)
 
 The plot shows the visualisation of yield by fertilizer and rainfall. The light blue indicates low rainfall (400 mm) and the dark blue indicates high rainfall (\~1200 mm).
 
