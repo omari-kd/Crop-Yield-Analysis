@@ -98,7 +98,7 @@ Rainfall is a critical factor. Without sufficient rainfall, even high fertilizer
 
 **Diminishing Returns of the fertilizer**
 
-The plot below gives an important insights into the nature of the fertilizer effect on yield.
+The plot below gives an important insights into the nature of the fertilizer effect on yield and it sets the stage nicely for a more sophisticated model.
 
 ![Image](https://github.com/user-attachments/assets/10c86a71-b7af-46e5-80e5-8245622ba3b9)
 
