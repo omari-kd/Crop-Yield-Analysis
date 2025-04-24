@@ -303,13 +303,13 @@ summary(model_full)
 ```{r}
 
 # Plot actual data points
-ggplotly(ggplot(clean_data, aes(x = Fertilizer, y = `Yield (Q/acre)`)) +
+ggplot(clean_data, aes(x = Fertilizer, y = `Yield (Q/acre)`)) +
   geom_point(color = "darkgreen", alpha = 0.6) +
   stat_smooth(method = "lm", formula = y ~ x + I(x^2), color = "blue", size = 1.2) +
   labs(title = "Diminishing Returns of Fertilizer",
        x = "Fertilizer (kg/acre?)",
        y = "Yield (q/acre)") +
-  theme_minimal())
+  theme_minimal()
 
 ```
 

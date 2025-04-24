@@ -98,6 +98,26 @@ Rainfall is a critical factor. Without sufficient rainfall, even high fertilizer
 
 **Diminishing Returns of the fertilizer**
 
-The plot below gives an important insights into the nature of the fertilizer effect on yield and it sets the stage nicely for a more sp
+The plot below gives an important insights into the nature of the fertilizer effect on yield.
+
+![Image](https://github.com/user-attachments/assets/10c86a71-b7af-46e5-80e5-8245622ba3b9)
+
+The scatterplot with a polynomial regression line (blue), shows a non-linear relationship between fertilizer and yield.
+
+The relationship is increasing but non-linear, looks like a quadratic or near-logistic shape. Initially as fertilizer increases, yield increases slowly. After a threshold (\~60–65), the rate of increase in yield accelerates. There may be signs of diminishing returns beyond \~75–80, where the yield gain per unit fertilizer starts to level off.
+
+Yield responds positively to fertilizer, but the efficiency of additional fertilizer decreases at higher levels; classic diminishing returns.
+
+\
+\
+**Conclusion**
+
+1.  Rainfall has a strong positive linear effect on yield.
+
+2.  Temperature has a negative linear effect on yield.
+
+3.  Fertilizer has a positive non-linear effect (possibly quadratic or logistic).
+
+4.  Yield is maximized under high rainfall, moderate temperature and high but not extreme fertilizer input.
 
 </div>
