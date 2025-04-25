@@ -151,7 +151,7 @@ Based on the output, temperature is the most impactful predictor of crop yield. 
 
 ![Image](https://github.com/user-attachments/assets/746c65de-2ab6-426c-bce4-6cb41e37ead7)
 
-Higher R2 and lower RMSE/MAE = better performance.
+Higher R2 and lower RMSE/MAE = better performance. Random Forest provided the highest predictive accuracy followed by linear regression.
 
 **Conclusion**
 
