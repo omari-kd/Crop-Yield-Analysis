@@ -163,4 +163,12 @@ Higher R2 and lower RMSE/MAE = better performance.
 
 4.  Yield is maximized under high rainfall, moderate temperature and high but not extreme fertilizer input.
 
+5.  Linear regression (Additive Model) provided interpretable coefficients and p values. It also showed which individual variables had statistically significant effects on yield. However, its predictive performance was more limited compared to tree-based models.
+
+6.  Decision Tree, a simple interpretable machine learning model, which is useful for identifying decision rules and splits in the data. It performance was moderate but not as strong as Random Forest.
+
+7.  Random Forest, a powerful ensemble model that provided the highest predictive accuracy. Highlighted temperature, rainfall and potassium as the most important variables. It showed superior performance across all metrics (R^2^, RMSE, MAE)
+
+Linear regression is excellent for understanding relationships, but limited for prediction. Random Forest is the best choice when your goal is accurate yield prediction. Using a combination of statistical and machine learning approaches gives you both insight and performance.
+
 </div>
