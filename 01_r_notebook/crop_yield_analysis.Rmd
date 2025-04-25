@@ -253,21 +253,21 @@ Macro-nutrients are essential mineral elements that plants need in relatively la
 
 ```{r}
 average_yield_nutrients <- clean_data %>% 
-  group_by(`Nitrogen (N)`, `Phosphorus (P)`, `Potassium (K)`) %>% 
-  summarise(average_yield_q_acre = mean(`Yield (Q/acre)`), .groups = "drop")
+  group_by(nitrogen_n, phosphorus_p, potassium_k) %>% 
+  summarise(average_yield_q_acre = mean(yield_q_acre, .groups = "drop"))
 
 plot_ly(
   data = average_yield_nutrients,
-  x = ~`Nitrogen (N)`,
-  y = ~`Phosphorus (P)`,
-  z = ~`Potassium (K)`,
+  x = ~nitrogen_n,
+  y = ~phosphorus_p,
+  z = ~potassium_k,
   size = ~average_yield_q_acre,
   type = 'scatter3d',
   mode = 'markers',
   marker = list(sizemode = 'diameter', color = ~average_yield, colorscale = 'Viridis')
 )
 
-ggplotly (ggplot(average_yield_nutrients, aes(x = `Nitrogen (N)`, y = `Phosphorus (P)`, size = average_yield_q_acre, color = `Potassium (K)`)) +
+ggplotly (ggplot(average_yield_nutrients, aes(x = nitrogen_n, y = phosphorus_p, size = average_yield_q_acre, color = potassium_k)) +
   geom_point(alpha = 0.7) +
   scale_size_continuous(range = c(2, 10)) +
   labs(title = "Yield by N, P (Bubble = Yield, Color = K)",
@@ -276,7 +276,7 @@ ggplotly (ggplot(average_yield_nutrients, aes(x = `Nitrogen (N)`, y = `Phosphoru
 
 
 
-ggplotly (ggplot(average_yield_nutrients, aes(x = `Nitrogen (N)`, y = `Phosphorus (P)`, fill = average_yield_q_acre)) +
+ggplotly (ggplot(average_yield_nutrients, aes(x = nitrogen_n, y = phosphorus_p, fill = average_yield_q_acre)) +
   geom_tile(color = "white") +
   scale_fill_viridis_c() +
   labs(title = "Average Yield by Nitrogen and Phosphorus",
@@ -297,7 +297,7 @@ If `β2` is **negative**, it confirms diminishing returns (a concave curve 📈�
 
 ```{r}
 # Fit model with Fertilizer squared (quadratic term)
-model_full <- lm(`Yield (Q/acre)` ~ Fertilizer + I(Fertilizer^2) + `Rainfall (mm)` + `Nitrogen (N)` + `Phosphorus (P)` + `Potassium (K)`, data = clean_data)
+model_full <- lm(yield_q_acre ~ fertilizer + I(fertilizer^2) + rainfall_mm + nitrogen_n + phosphorus_p + potassium_k, data = clean_data)
 
 
 # summary to check the sign and significance of fertilizer^2 
@@ -309,7 +309,7 @@ summary(model_full)
 ```{r}
 
 # Plot actual data points
-ggplot(clean_data, aes(x = Fertilizer, y = `Yield (Q/acre)`)) +
+ggplot(clean_data, aes(x = fertilizer, y = yield_q_acre)) +
   geom_point(color = "darkgreen", alpha = 0.6) +
   stat_smooth(method = "lm", formula = y ~ x + I(x^2), color = "blue", size = 1.2) +
   labs(title = "Diminishing Returns of Fertilizer",
@@ -325,22 +325,22 @@ Plotting the relationship between fertilizer and yield while holding other varia
 
 ```{r}
 # Create a sequence of fertilizer values
-fert_range <- seq(min(clean_data$Fertilizer), max(clean_data$Fertilizer), length.out = 100)
+fert_range <- seq(min(clean_data$fertilizer), max(clean_data$fertilizer), length.out = 100)
 
 # Hold other variables at their mean
-rain_mean <- mean(clean_data$`Rainfall (mm)`)
-N_mean <- mean(clean_data$`Nitrogen (N)`)
-P_mean <- mean(clean_data$`Phosphorus (P)`)
-K_mean <- mean(clean_data$`Potassium (K)`)
+rain_mean <- mean(clean_data$rainfall_mm)
+N_mean <- mean(clean_data$nitrogen_n)
+P_mean <- mean(clean_data$phosphorus_p)
+K_mean <- mean(clean_data$potassium_k)
 
 # Create new data frame for prediction
 # Create prediction data frame with correct column names
 pred_data <- data.frame(
-  Fertilizer = fert_range,
-  `Rainfall (mm)` = rain_mean,
-  `Nitrogen (N)` = N_mean,
-  `Phosphorus (P)` = P_mean,
-  `Potassium (K)` = K_mean
+  fertilizer = fert_range,
+  rainfall_mm = rain_mean,
+  nitrogen_n = N_mean,
+  phosphorus_p = P_mean,
+  potassium_k = K_mean
 )
 
 
@@ -350,8 +350,8 @@ pred_data$Pred_Yield <- predict(model_full, newdata = pred_data)
 
 # Plot
 ggplot() +
-  geom_point(data = clean_data, aes(x = Fertilizer, y = Yield), alpha = 0.5, color = "gray") +
-  geom_line(data = pred_data, aes(x = Fertilizer, y = Pred_Yield), color = "blue", size = 1.2) +
+  geom_point(data = clean_data, aes(x = fertilizer, y = yield_q_acre), alpha = 0.5, color = "gray") +
+  geom_line(data = pred_data, aes(x = fertilizer, y = Pred_Yield), color = "blue", size = 1.2) +
   labs(title = "Diminishing Returns of Fertilizer (controlling for Rainfall & NPK)",
        x = "Fertilizer",
        y = "Predicted Yield") +
@@ -363,7 +363,7 @@ ggplot() +
 **Linear Regression**
 
 ```{r}
-model1 <- lm(`Yield (Q/acre)` ~ `Rainfall (mm)` + Temperature + Fertilizer + `Nitrogen (N)` + `Phosphorus (P)` + `Potassium (K)`, data = clean_data)
+model1 <- lm(yield_q_acre ~ rainfall_mm + temperature + fertilizer + nitrogen_n + phosphorus_p + potassium_k, data = clean_data)
 
 summary(model1)
 ```
@@ -371,7 +371,7 @@ summary(model1)
 **Regression with interaction term in R**
 
 ```{r}
-model2 <- lm(`Yield (Q/acre)` ~ `Rainfall (mm)` * Fertilizer + Temperature + `Nitrogen (N)` + `Phosphorus (P)` + `Potassium (K)`, data = clean_data)
+model2 <- lm(yield_q_acre ~ rainfall_mm * fertilizer + temperature + nitrogen_n + phosphorus_p + potassium_k, data = clean_data)
 
 summary(model2)
 ```
@@ -393,11 +393,13 @@ library(rpart)
 library(rpart.plot)
 
 # Fit the decsion tree 
-tree_model <- rpart(formula = `Yield (Q/acre)` ~ `Rainfall (mm)` + Temperature + Fertilizer + `Nitrogen (N)` + `Phosphorus (P)` + `Potassium (K)`, data = clean_data, method = "anova")
+tree_model <- rpart(formula = yield_q_acre ~ rainfall_mm + temperature + fertilizer + nitrogen_n + phosphorus_p + potassium_k, data = clean_data, method = "anova")
 
 # Visualise the tree 
 rpart.plot(x = tree_model, type = 2, fallen.leaves = TRUE, extra = 101)
 ```
+
+The root node of the decision is the first split and shows the most influential feature in predicting crop yield. In this model, rainfall is at the root, meaning it has the highest information gain and is the most important factor in determining crop yield. The subsequent splits provide additional insights into how different combination of features influence the prediction of crop yield.
 
 **Random Forest**
 
@@ -410,5 +412,42 @@ rf_model <- randomForest(formula = yield_q_acre ~ rainfall_mm + temperature + fe
 # View variable importance 
 importance(rf_model)
 varImpPlot(rf_model)
+```
+
+**Variable Important Metrics**
+
+**%IncMSE:** This tells how much the mean squared error increases when that variable is permuted; higher means more important.
+
+**IncNodePurity:** Measures how much a variable improves node purity (i.e., splits that reduce variance); also higher means more important.
+
+Based on the output, temperature is the most impactful predictor of crop yield. Rainfall and Potassium are also strong predictors. Fertilizer has the least influence in the randomForest model.\
+
+**For better visualisation than the VarImpPlot()**
+
+```{r}
+# Tidy up the variable importance
+var_imp <- importance(rf_model) %>%
+  as.data.frame() %>%
+  tibble::rownames_to_column(var = "Variable") %>%
+  arrange(desc(`%IncMSE`))
+
+# Round for readability
+var_imp <- var_imp %>%
+  mutate(across(-Variable, round, 2))
+
+print(var_imp)
+
+
+# Plot variable importance using %IncMSE
+ggplot(var_imp, aes(x = reorder(Variable, `%IncMSE`), y = `%IncMSE`)) +
+  geom_col(fill = "#2c7fb8") +
+  coord_flip() +
+  labs(
+    title = "Variable Importance from Random Forest",
+    x = "Variable",
+    y = "% Increase in MSE"
+  ) +
+  theme_minimal()
+
 ```
 :::

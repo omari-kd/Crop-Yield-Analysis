@@ -123,7 +123,32 @@ Yield responds positively to fertilizer, but the efficiency of additional fertil
 
 -   Fertilizer and Rainfall are not significant individually.
 
+**Decision Tree Model**
+
+![Image](https://github.com/user-attachments/assets/0b519a03-e05c-41e1-896e-82e38805483c)
+
+The root node of the decision is the first split and shows the most influential feature in predicting crop yield. In this model, rainfall is at the root, meaning it has the highest information gain and is the most important factor in determining crop yield. The subsequent splits provide additional insights into how different combination of features influence the prediction of crop yield.
+
+**RandomForest Model**
+
+![Image](https://github.com/user-attachments/assets/0123f534-c1bf-4407-8568-b42eebf6aebf)
+
+**Variable Important Metrics**
+
+**%IncMSE:** This tells how much the mean squared error increases when that variable is permuted; higher means more important.
+
+**IncNodePurity:** Measures how much a variable improves node purity (i.e., splits that reduce variance); also higher means more important.
+
+Based on the output, temperature is the most impactful predictor of crop yield. Rainfall and Potassium are also strong predictors. Fertilizer has the least influence in the randomForest model.\
+
+**For better visualisation than the VarImpPlot()**
+
+![Image](https://github.com/user-attachments/assets/c73c9de5-13b2-4735-beb3-a83ac5a87c51)
+
 \
+\
+**Model Performance**
+
 **Conclusion**
 
 1.  Rainfall has a strong positive linear effect on yield.
