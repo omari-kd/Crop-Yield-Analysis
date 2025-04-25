@@ -511,7 +511,7 @@ performance_long <- pivot_longer(performance_comparison, cols = c(R2, RMSE, MAE)
 
 ggplot(performance_long, aes(x = Model, y = Value, fill = Metric)) +
   geom_col(position = "dodge") +
-  labs(title = "Model Performance Comparison (Test Set)", y = "Metric Value", x = "") +
+  labs(title = "Model Performance Comparison", y = "Metric Value", x = "") +
   theme_minimal() +
   scale_fill_brewer(palette = "Set1")
 ```
@@ -582,8 +582,8 @@ Visualise the performance
 
 ```{r}
 
-performance_comparison$Model <- rownames(performance_comparison)
-performance_long <- pivot_longer(performance_comparison, cols = c(R2, RMSE, MAE), names_to = "Metric", values_to = "Value")
+performance_comparison_1$Model <- rownames(performance_comparison_1)
+performance_long <- pivot_longer(performance_comparison_1, cols = c(R2, RMSE, MAE), names_to = "Metric", values_to = "Value")
 
 ggplot(performance_long, aes(x = Model, y = Value, fill = Metric)) +
   geom_col(position = "dodge") +
