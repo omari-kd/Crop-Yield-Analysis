@@ -171,4 +171,8 @@ Higher R2 and lower RMSE/MAE = better performance. Random Forest provided the hi
 
 Linear regression is excellent for understanding relationships, but limited for prediction. Random Forest is the best choice when your goal is accurate yield prediction. Using a combination of statistical and machine learning approaches gives you both insight and performance.
 
+**Contributions**
+
+Contributions are welcome!
+
 </div>
