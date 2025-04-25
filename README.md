@@ -84,7 +84,7 @@ High temperature and low rainfall significantly reduce yield.
 
 The plot clearly shows an upward trend, average yield increases as fertilizer use increases. From 50 to 70 units of fertilizer, yield gradually improves. Beyond 70, there is a more noticeable jump and stabilization at higher yields(10 - 11 Q/acre).
 
-Fertilizer positively influences yield, especially when moving from moderate (\~60) to higher levels. However, there's some fluctuation, suggesting other factors (like rainfall or temperature) may also be playing a role.
+Fertilizer positively influences yield, especially when moving from moderate (\~60kg) to higher levels. However, there's some fluctuation, suggesting other factors (like rainfall or temperature) may also be playing a role.
 
 **Data Visualisation of Yield by Fertilizer and Rainfall**
 
@@ -104,7 +104,7 @@ The plot below gives an important insights into the nature of the fertilizer eff
 
 The scatter plot with a polynomial regression line (blue), shows a non-linear relationship between fertilizer and yield.
 
-The relationship is increasing but non-linear, looks like a quadratic or near-logistic shape. Initially as fertilizer increases, yield increases slowly. After a threshold (\~60–65), the rate of increase in yield accelerates. There may be signs of diminishing returns beyond \~75–80, where the yield gain per unit fertilizer starts to level off.
+The relationship is increasing but non-linear, looks like a quadratic or near-logistic shape. Initially as fertilizer increases, yield increases slowly. After a threshold (\~60–65kg), the rate of increase in yield accelerates. There may be signs of diminishing returns beyond \~75–80kg, where the yield gain per unit fertilizer starts to level off.
 
 Yield responds positively to fertilizer, but the efficiency of additional fertilizer decreases at higher levels; classic diminishing returns.
 
