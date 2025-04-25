@@ -167,7 +167,7 @@ Higher R2 and lower RMSE/MAE = better performance.
 
 6.  Decision Tree, a simple interpretable machine learning model, which is useful for identifying decision rules and splits in the data. It performance was moderate but not as strong as Random Forest.
 
-7.  Random Forest, a powerful ensemble model that provided the highest predictive accuracy. Highlighted temperature, rainfall and potassium as the most important variables. It showed superior performance across all metrics (R^2^, RMSE, MAE)
+7.  Random Forest, a powerful ensemble model that provided the highest predictive accuracy. Highlighted temperature, rainfall and potassium as the most important variables. It showed superior performance across all metrics (R2, RMSE, MAE)
 
 Linear regression is excellent for understanding relationships, but limited for prediction. Random Forest is the best choice when your goal is accurate yield prediction. Using a combination of statistical and machine learning approaches gives you both insight and performance.
 
