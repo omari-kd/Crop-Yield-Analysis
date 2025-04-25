@@ -108,7 +108,7 @@ The relationship is increasing but non-linear, looks like a quadratic or near-lo
 
 Yield responds positively to fertilizer, but the efficiency of additional fertilizer decreases at higher levels; classic diminishing returns.
 
-\
+**Confirmatory Data Analysis**\
 **Linear Regression Model**
 
 ![Image](https://github.com/user-attachments/assets/19a5b7eb-20d4-4938-9a99-58e0287cbcdb)

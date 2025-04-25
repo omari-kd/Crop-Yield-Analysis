@@ -359,7 +359,7 @@ ggplot() +
 
 ```
 
-\
+**Confirmatory Data Analysis**\
 **Linear Regression**
 
 ```{r}
