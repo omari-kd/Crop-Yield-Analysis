@@ -108,7 +108,7 @@ The relationship is increasing but non-linear, looks like a quadratic or near-lo
 
 Yield responds positively to fertilizer, but the efficiency of additional fertilizer decreases at higher levels; classic diminishing returns.
 
-**Confirmatory Data Analysis**\
+**Confirmatory Data Analysis and Modeling**\
 **Linear Regression Model**
 
 ![Image](https://github.com/user-attachments/assets/19a5b7eb-20d4-4938-9a99-58e0287cbcdb)
@@ -122,12 +122,6 @@ Yield responds positively to fertilizer, but the efficiency of additional fertil
 -   The effect of Phosphorus is non statistically significant (p = 0.088 \> 0.05), the result was close to significance.
 
 -   Fertilizer and Rainfall are not significant individually.
-
-</div>
-
-<div>
-
-**Modeling**
 
 **Decision Tree Model**
 
