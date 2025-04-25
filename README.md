@@ -139,7 +139,7 @@ The root node of the decision is the first split and shows the most influential 
 
 **IncNodePurity:** Measures how much a variable improves node purity (i.e., splits that reduce variance); also higher means more important.
 
-Based on the output, temperature is the most impactful predictor of crop yield. Rainfall and Potassium are also strong predictors. Fertilizer has the least influence in the randomForest model.\
+Based on the output, temperature is the most impactful predictor of crop yield. Rainfall and Potassium are also strong predictors. Fertilizer has the least influence in the randomForest model.
 
 **For better visualisation than the VarImpPlot()**
 
@@ -151,7 +151,7 @@ Based on the output, temperature is the most impactful predictor of crop yield. 
 
 ![Image](https://github.com/user-attachments/assets/746c65de-2ab6-426c-bce4-6cb41e37ead7)
 
-Higher R2 and lower RMSE/MAE = better performance
+Higher R2 and lower RMSE/MAE = better performance.
 
 **Conclusion**
 
