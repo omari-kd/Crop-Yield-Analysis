@@ -24,6 +24,7 @@ library(janitor)
 library(naniar)
 library(ggplot2)
 library(plotly)
+library(tidyr)
 ```
 
 ```{r}
@@ -363,9 +364,9 @@ ggplot() +
 **Linear Regression**
 
 ```{r}
-model1 <- lm(yield_q_acre ~ rainfall_mm + temperature + fertilizer + nitrogen_n + phosphorus_p + potassium_k, data = clean_data)
+lm_model <- lm(yield_q_acre ~ rainfall_mm + temperature + fertilizer + nitrogen_n + phosphorus_p + potassium_k, data = clean_data)
 
-summary(model1)
+summary(lm_model)
 ```
 
 **Regression with interaction term in R**
@@ -448,6 +449,147 @@ ggplot(var_imp, aes(x = reorder(Variable, `%IncMSE`), y = `%IncMSE`)) +
     y = "% Increase in MSE"
   ) +
   theme_minimal()
+
+```
+
+Model Performance Comparison
+
+The model performance will be compared using standard regression metrics:
+
+R2 - R squared
+
+RMSE - Root Mean Squared Error
+
+MAE - Mean Absolute Error
+
+```{r}
+library(Metrics)
+library(caret)
+
+# yield_q_acre is my response variable
+# Get true values 
+actual <- clean_data$yield_q_acre
+
+# Linear regression model 
+pred_lm <- predict(lm_model, newdata = clean_data)
+
+# Decision tree predictions
+pred_tree <- predict(tree_model, newdata = clean_data)
+
+# Random forest prediction
+pred_rf <- predict(rf_model, newdata = clean_data)
+
+
+# --------------------------------------------------
+# CREATE A PERFORMANCE TABLE 
+# --------------------------------------------------
+
+# Function to compute metrics
+get_metrics <- function(actual, predicted) {
+  data.frame(
+    R2 = R2(predicted, actual),
+    RMSE = rmse(actual, predicted),
+    MAE = mae(actual, predicted)
+  )
+}
+
+# Combine all into one table 
+performance_comparison <- rbind(
+  Linear_Regression = get_metrics(actual = actual, predicted = pred_lm),
+  Decision_Tree = get_metrics(actual = actual, predicted = pred_tree),
+  Random_Forest = get_metrics(actual = actual, predicted = pred_rf)
+)
+
+print(performance_comparison)
+```
+
+Higher R2 and lower RMSE/MAE = better performance
+
+```{r}
+performance_comparison$Model <- rownames(performance_comparison)
+performance_long <- pivot_longer(performance_comparison, cols = c(R2, RMSE, MAE), names_to = "Metric", values_to = "Value")
+
+ggplot(performance_long, aes(x = Model, y = Value, fill = Metric)) +
+  geom_col(position = "dodge") +
+  labs(title = "Model Performance Comparison (Test Set)", y = "Metric Value", x = "") +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set1")
+```
+
+\
+\
+Using train/test split to validate them properly\
+
+```{r}
+# Split the data into 70% training and 30% testing
+set.seed(123)
+
+split_index <- createDataPartition(clean_data$yield_q_acre, p = 0.7, list = FALSE)
+
+
+train_data <- clean_data[split_index, ]
+test_data  <- clean_data[-split_index, ]
+
+
+# Fit Models on Training Data
+
+# Linear Regression
+lm_model <- lm(yield_q_acre ~ rainfall_mm + temperature + fertilizer + nitrogen_n + phosphorus_p + potassium_k, data = train_data)
+
+# Decision Tree
+tree_model <- rpart(yield_q_acre ~ rainfall_mm + temperature + fertilizer + nitrogen_n + phosphorus_p + potassium_k, data = train_data, method = "anova")
+
+# Random Forest
+rf_model <- randomForest(yield_q_acre ~ rainfall_mm + temperature + fertilizer + nitrogen_n + phosphorus_p + potassium_k, data = train_data, importance = TRUE, ntree = 500)
+
+
+# Predict on Test Set & Evaluate 
+
+# True values
+actual <- test_data$Yield_Q_acre
+
+# Predictions
+pred_lm    <- predict(lm_model, newdata = test_data)
+pred_tree  <- predict(tree_model, newdata = test_data)
+pred_rf    <- predict(rf_model, newdata = test_data)
+
+# Metrics function
+get_metrics <- function(actual, predicted) {
+  data.frame(
+    R2   = R2(predicted, actual),
+    RMSE = rmse(actual, predicted),
+    MAE  = mae(actual, predicted)
+  )
+}
+actual     <- as.numeric(test_data$yield_q_acre)
+pred_lm    <- as.numeric(pred_lm)
+pred_tree  <- as.numeric(pred_tree)
+pred_rf    <- as.numeric(pred_rf)
+
+
+# Combine into one table
+performance_comparison_1 <- rbind(
+  Linear_Regression = get_metrics(actual, pred_lm),
+  Decision_Tree     = get_metrics(actual, pred_tree),
+  Random_Forest     = get_metrics(actual, pred_rf)
+)
+
+print(performance_comparison)
+
+```
+
+Visualise the performance
+
+```{r}
+
+performance_comparison$Model <- rownames(performance_comparison)
+performance_long <- pivot_longer(performance_comparison, cols = c(R2, RMSE, MAE), names_to = "Metric", values_to = "Value")
+
+ggplot(performance_long, aes(x = Model, y = Value, fill = Metric)) +
+  geom_col(position = "dodge") +
+  labs(title = "Model Performance Comparison (Test Set)", y = "Metric Value", x = "") +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set1")
 
 ```
 :::

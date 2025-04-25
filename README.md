@@ -149,6 +149,10 @@ Based on the output, temperature is the most impactful predictor of crop yield. 
 \
 **Model Performance**
 
+![Image](https://github.com/user-attachments/assets/746c65de-2ab6-426c-bce4-6cb41e37ead7)
+
+Higher R2 and lower RMSE/MAE = better performance
+
 **Conclusion**
 
 1.  Rainfall has a strong positive linear effect on yield.
