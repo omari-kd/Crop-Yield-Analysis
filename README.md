@@ -109,7 +109,7 @@ The relationship is increasing but non-linear, looks like a quadratic or near-lo
 Yield responds positively to fertilizer, but the efficiency of additional fertilizer decreases at higher levels; classic diminishing returns.
 
 **Confirmatory Data Analysis and Modeling**\
-**Linear Regression Model**
+**Linear Regression**
 
 ![Image](https://github.com/user-attachments/assets/19a5b7eb-20d4-4938-9a99-58e0287cbcdb)
 
@@ -123,13 +123,13 @@ Yield responds positively to fertilizer, but the efficiency of additional fertil
 
 -   Fertilizer and Rainfall are not significant individually.
 
-**Decision Tree Model**
+**Decision Tree**
 
 ![Image](https://github.com/user-attachments/assets/0b519a03-e05c-41e1-896e-82e38805483c)
 
 The root node of the decision is the first split and shows the most influential feature in predicting crop yield. In this model, rainfall is at the root, meaning it has the highest information gain and is the most important factor in determining crop yield. The subsequent splits provide additional insights into how different combination of features influence the prediction of crop yield.
 
-**RandomForest Model**
+**RandomForest**
 
 ![Image](https://github.com/user-attachments/assets/0123f534-c1bf-4407-8568-b42eebf6aebf)
 
