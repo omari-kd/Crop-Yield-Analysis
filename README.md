@@ -123,6 +123,12 @@ Yield responds positively to fertilizer, but the efficiency of additional fertil
 
 -   Fertilizer and Rainfall are not significant individually.
 
+</div>
+
+<div>
+
+**Modeling**
+
 **Decision Tree Model**
 
 ![Image](https://github.com/user-attachments/assets/0b519a03-e05c-41e1-896e-82e38805483c)
