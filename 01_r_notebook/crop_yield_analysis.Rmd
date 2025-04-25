@@ -592,4 +592,10 @@ ggplot(performance_long, aes(x = Model, y = Value, fill = Metric)) +
   scale_fill_brewer(palette = "Set1")
 
 ```
+
+**Export clean data**
+
+```{r}
+write.csv(x = clean_data, file = "./02_clean_data/clean_data.csv", row.names = F)
+```
 :::
